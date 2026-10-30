@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- I set up the title that shows up on the browser tab -->
+    <title>Class Project: Easy Calculator</title>
+    
+    <style>
+        /* I centered the calculator on the page and gave it a clean Arial font */
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+
+        /* I styled my container box with padding, a green border, rounded corners, and a subtle background */
+        .box { display: inline-block; padding: 15px; border: 3px solid #4CAF50; border-radius: 10px; background: #fafafa; }
+
+        /* I styled the screen display so the text aligns to the right just like a real calculator */
+        input { width: 160px; height: 35px; font-size: 20px; text-align: right; margin-bottom: 10px; }
+
+        /* I set standard dimensions, spacing, and hover cursors for my calculator buttons */
+        button { width: 40px; height: 40px; margin: 2px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <!-- I wrapped my calculator layout inside this box container -->
+    <div class="box">
+        <!-- I created a read-only input field to act as my calculator's display screen -->
+        <input id="view" readonly placeholder="0"><br>
+
+        <!-- Row 1: I created buttons 7, 8, 9 and division, making each send its value to my add() function -->
+        <button onclick="add('7')">7</button><button onclick="add('8')">8</button><button onclick="add('9')">9</button><button onclick="add('/')">/</button><br>
+
+        <!-- Row 2: I created buttons 4, 5, 6 and multiplication -->
+        <button onclick="add('4')">4</button><button onclick="add('5')">5</button><button onclick="add('6')">6</button><button onclick="add('*')">*</button><br>
+
+        <!-- Row 3: I created buttons 1, 2, 3 and subtraction -->
+        <button onclick="add('1')">1</button><button onclick="add('2')">2</button><button onclick="add('3')">3</button><button onclick="add('-')">-</button><br>
+
+        <!-- Row 4: I created button 0, a decimal point, the equals button (which triggers solve()), and addition -->
+        <button onclick="add('0')">0</button><button onclick="add('.')">.</button><button onclick="solve()">=</button><button onclick="add('+')">+</button><br>
+
+        <!-- Clear Button: I styled a wide orange button that triggers my clr() function to wipe the screen -->
+        <button onclick="clr()" style="width: 176px; margin-top: 5px; background: #ff9800; color: white;">Clear</button>
+    </div>
+
+    <script>
+        // I grabbed a reference to my display screen input element using its ID so I can update it easily
+        var txt = document.getElementById('view');
+
+        // I created a function that takes whatever button was pressed and appends it to the display screen
+        function add(val) { txt.value += val; }
+
+        // I created a function to clear the display screen by setting its value back to empty
+        function clr() { txt.value = ''; }
+
+        // I created a function to evaluate and solve the math expression on screen
+        function solve() {
+            try { 
+                // I used eval() to calculate the equation, falling back to 0 if the screen is empty
+                txt.value = eval(txt.value) || 0; 
+            } 
+            catch(err) { 
+                // I added error catching so invalid equations display 'Error' instead of breaking the page
+                txt.value = 'Error'; 
+            }
+        }
+    </script>
+</body>
+</html>
