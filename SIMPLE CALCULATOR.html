@@ -1,11 +1,11 @@
- html
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- I set the title of my scientific calculator project for my class portfolio -->
-    <title>Scientific Calculator Project</title>
+    <title>My Scientific Calculator Project (FINAL VERSION v3 REAL)</title>
     
     <style>
         /* I reset body styles and made the background dark navy blue because dark mode looks cooler */
@@ -97,7 +97,7 @@
         .op-btn { background-color: #ff9f1c; color: black; }        /* I made basic operator keys orange */
         .fn-btn { background-color: #3a86ff; color: white; }        /* I made scientific function keys blue */
         .clear-btn { background-color: #e63946; color: white; }     /* I made clear/del keys red */
-        .eq-btn { background-color: #4CAF50; color: white; grid-column: span 2; } /* I made equals green and stretched it */
+        .eq-btn { background-color: #4CAF50; color: white; }        /* I made equals green */
 
         /* Simple press effect when clicking buttons */
         .btn:active { transform: scale(0.95); }
@@ -115,7 +115,7 @@
             <input type="text" id="displayScreen" readonly placeholder="0">
         </div>
 
-        <!-- Grid of calculator buttons in 5 columns -->
+        <!-- Grid of calculator buttons neatly organized into 5 columns -->
         <div class="grid-buttons">
             <!-- Row 1: Trigonometry & Reset keys -->
             <button class="btn fn-btn" onclick="press('sin(')">sin</button>
@@ -124,26 +124,26 @@
             <button class="btn clear-btn" onclick="clearAll()">AC</button>
             <button class="btn clear-btn" onclick="backspace()">DEL</button>
 
-            <!-- Row 2: Powers, Roots & Division -->
+            <!-- Row 2: Logarithms, Roots & Division -->
             <button class="btn fn-btn" onclick="press('log(')">log</button>
             <button class="btn fn-btn" onclick="press('ln(')">ln</button>
             <button class="btn fn-btn" onclick="press('√(')">√</button>
             <button class="btn fn-btn" onclick="press('^')">x^y</button>
-            <button class="btn op-btn" onclick="press('/')">/</button>
+            <button class="btn op-btn" onclick="press('/')">÷</button>
 
-            <!-- Row 3: Pi, Euler constant & Parentheses -->
+            <!-- Row 3: Constants, Parentheses & Multiplication -->
             <button class="btn fn-btn" onclick="press('π')">π</button>
             <button class="btn fn-btn" onclick="press('e')">e</button>
             <button class="btn fn-btn" onclick="press('(')">(</button>
             <button class="btn fn-btn" onclick="press(')')">)</button>
-            <button class="btn op-btn" onclick="press('*')">*</button>
+            <button class="btn op-btn" onclick="press('*')">×</button>
 
             <!-- Row 4: Digits 7, 8, 9, Percent & Subtraction -->
             <button class="btn num-btn" onclick="press('7')">7</button>
             <button class="btn num-btn" onclick="press('8')">8</button>
             <button class="btn num-btn" onclick="press('9')">9</button>
             <button class="btn fn-btn" onclick="press('%')">%</button>
-            <button class="btn op-btn" onclick="press('-')">-</button>
+            <button class="btn op-btn" onclick="press('-')">−</button>
 
             <!-- Row 5: Digits 4, 5, 6, Decimal & Addition -->
             <button class="btn num-btn" onclick="press('4')">4</button>
