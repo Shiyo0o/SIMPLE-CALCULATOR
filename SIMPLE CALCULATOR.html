@@ -1,64 +1,251 @@
+ html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <!-- I set up the title that shows up on the browser tab -->
-    <title>Class Project: Easy Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- I set the title of my scientific calculator project for my class portfolio -->
+    <title>My Scientific Calculator Project (FINAL VERSION v3 REAL)</title>
     
     <style>
-        /* I centered the calculator on the page and gave it a clean Arial font */
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        /* I reset body styles and made the background dark navy blue because dark mode looks cooler */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #12121e;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
 
-        /* I styled my container box with padding, a green border, rounded corners, and a subtle background */
-        .box { display: inline-block; padding: 15px; border: 3px solid #4CAF50; border-radius: 10px; background: #fafafa; }
+        /* I styled my heading text for the class project */
+        h2 { margin-bottom: 5px; color: #4CAF50; }
+        p { margin-bottom: 20px; color: #a6adc8; font-size: 14px; }
 
-        /* I styled the screen display so the text aligns to the right just like a real calculator */
-        input { width: 160px; height: 35px; font-size: 20px; text-align: right; margin-bottom: 10px; }
+        /* I created a main container box to hold all my buttons and screen */
+        .calc-box {
+            width: 100%;
+            max-width: 380px;
+            background-color: #22223b;
+            border: 4px solid #4CAF50; /* I used a green border like my basic calculator */
+            border-radius: 15px;
+            padding: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* I added a drop shadow so it pops out */
+        }
 
-        /* I set standard dimensions, spacing, and hover cursors for my calculator buttons */
-        button { width: 40px; height: 40px; margin: 2px; font-size: 16px; cursor: pointer; }
+        /* Screen display container box */
+        .screen-container {
+            background-color: #000000;
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* I styled the secondary history display above the main screen */
+        #prevScreen {
+            width: 100%;
+            height: 22px;
+            font-size: 14px;
+            color: #888;
+            text-align: right;
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+
+        /* I styled the main calculator display screen */
+        #displayScreen {
+            width: 100%;
+            height: 45px;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: right;
+            background: transparent;
+            color: #00ff66; /* I made the numbers retro neon green */
+            border: none;
+            outline: none;
+        }
+
+        /* I used CSS grid layout to organize my buttons into 5 neat columns */
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        /* I set standard sizing and styles for all buttons */
+        .btn {
+            height: 46px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            transition: transform 0.05s ease, opacity 0.1s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        /* I created separate CSS classes so I could color-code my button types */
+        .num-btn { background-color: #4a4e69; color: white; }       /* I made number keys grey */
+        .op-btn { background-color: #ff9f1c; color: black; }        /* I made basic operator keys orange */
+        .fn-btn { background-color: #3a86ff; color: white; }        /* I made scientific function keys blue */
+        .clear-btn { background-color: #e63946; color: white; }     /* I made clear/del keys red */
+        .eq-btn { background-color: #4CAF50; color: white; grid-column: span 2; } /* I made equals green and stretched it */
+
+        /* Simple press effect when clicking buttons */
+        .btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
-    <!-- I wrapped my calculator layout inside this box container -->
-    <div class="box">
-        <!-- I created a read-only input field to act as my calculator's display screen -->
-        <input id="view" readonly placeholder="0"><br>
+    <h2>Scientific Calculator</h2>
+    <p>Web Development Class Project</p>
 
-        <!-- Row 1: I created buttons 7, 8, 9 and division, making each send its value to my add() function -->
-        <button onclick="add('7')">7</button><button onclick="add('8')">8</button><button onclick="add('9')">9</button><button onclick="add('/')">/</button><br>
+    <!-- Main calculator box layout container -->
+    <div class="calc-box">
+        <!-- Display section with top history and bottom main screen -->
+        <div class="screen-container">
+            <input type="text" id="prevScreen" readonly placeholder="">
+            <input type="text" id="displayScreen" readonly placeholder="0">
+        </div>
 
-        <!-- Row 2: I created buttons 4, 5, 6 and multiplication -->
-        <button onclick="add('4')">4</button><button onclick="add('5')">5</button><button onclick="add('6')">6</button><button onclick="add('*')">*</button><br>
+        <!-- Grid of calculator buttons in 5 columns -->
+        <div class="grid-buttons">
+            <!-- Row 1: Trigonometry & Reset keys -->
+            <button class="btn fn-btn" onclick="press('sin(')">sin</button>
+            <button class="btn fn-btn" onclick="press('cos(')">cos</button>
+            <button class="btn fn-btn" onclick="press('tan(')">tan</button>
+            <button class="btn clear-btn" onclick="clearAll()">AC</button>
+            <button class="btn clear-btn" onclick="backspace()">DEL</button>
 
-        <!-- Row 3: I created buttons 1, 2, 3 and subtraction -->
-        <button onclick="add('1')">1</button><button onclick="add('2')">2</button><button onclick="add('3')">3</button><button onclick="add('-')">-</button><br>
+            <!-- Row 2: Powers, Roots & Division -->
+            <button class="btn fn-btn" onclick="press('log(')">log</button>
+            <button class="btn fn-btn" onclick="press('ln(')">ln</button>
+            <button class="btn fn-btn" onclick="press('√(')">√</button>
+            <button class="btn fn-btn" onclick="press('^')">x^y</button>
+            <button class="btn op-btn" onclick="press('/')">/</button>
 
-        <!-- Row 4: I created button 0, a decimal point, the equals button (which triggers solve()), and addition -->
-        <button onclick="add('0')">0</button><button onclick="add('.')">.</button><button onclick="solve()">=</button><button onclick="add('+')">+</button><br>
+            <!-- Row 3: Pi, Euler constant & Parentheses -->
+            <button class="btn fn-btn" onclick="press('π')">π</button>
+            <button class="btn fn-btn" onclick="press('e')">e</button>
+            <button class="btn fn-btn" onclick="press('(')">(</button>
+            <button class="btn fn-btn" onclick="press(')')">)</button>
+            <button class="btn op-btn" onclick="press('*')">*</button>
 
-        <!-- Clear Button: I styled a wide orange button that triggers my clr() function to wipe the screen -->
-        <button onclick="clr()" style="width: 176px; margin-top: 5px; background: #ff9800; color: white;">Clear</button>
+            <!-- Row 4: Digits 7, 8, 9, Percent & Subtraction -->
+            <button class="btn num-btn" onclick="press('7')">7</button>
+            <button class="btn num-btn" onclick="press('8')">8</button>
+            <button class="btn num-btn" onclick="press('9')">9</button>
+            <button class="btn fn-btn" onclick="press('%')">%</button>
+            <button class="btn op-btn" onclick="press('-')">-</button>
+
+            <!-- Row 5: Digits 4, 5, 6, Decimal & Addition -->
+            <button class="btn num-btn" onclick="press('4')">4</button>
+            <button class="btn num-btn" onclick="press('5')">5</button>
+            <button class="btn num-btn" onclick="press('6')">6</button>
+            <button class="btn num-btn" onclick="press('.')">.</button>
+            <button class="btn op-btn" onclick="press('+')">+</button>
+
+            <!-- Row 6: Digits 1, 2, 3, 0 & Solve Equals -->
+            <button class="btn num-btn" onclick="press('1')">1</button>
+            <button class="btn num-btn" onclick="press('2')">2</button>
+            <button class="btn num-btn" onclick="press('3')">3</button>
+            <button class="btn num-btn" onclick="press('0')">0</button>
+            <button class="btn eq-btn" onclick="calculateResult()">=</button>
+        </div>
     </div>
 
     <script>
-        // I grabbed a reference to my display screen input element using its ID so I can update it easily
-        var txt = document.getElementById('view');
+        // I stored my DOM elements in global variables so all my functions can access them easily
+        var screen = document.getElementById('displayScreen');
+        var topScreen = document.getElementById('prevScreen');
+        
+        // Global variables to track state
+        var errorState = false; // I added this flag to track if screen shows 'Error'
+        var tempMemory = '';    // I created a temp variable to hold intermediate equation strings
 
-        // I created a function that takes whatever button was pressed and appends it to the display screen
-        function add(val) { txt.value += val; }
+        // I created a function that appends whatever button character was clicked to the main display screen
+        function press(character) {
+            // I added an if statement so if the screen says 'Error', typing a new button clears it first
+            if (screen.value === 'Error' || errorState === true) {
+                screen.value = '';
+                errorState = false;
+            }
+            // I concatenated the new character onto the existing screen text string
+            screen.value = screen.value + character;
+        }
 
-        // I created a function to clear the display screen by setting its value back to empty
-        function clr() { txt.value = ''; }
+        // I created a clear function to reset both display screens when AC is clicked
+        function clearAll() {
+            screen.value = '';     // Clears main screen
+            topScreen.value = '';  // Clears top history screen
+            errorState = false;    // Resets error status back to false
+        }
 
-        // I created a function to evaluate and solve the math expression on screen
-        function solve() {
-            try { 
-                // I used eval() to calculate the equation, falling back to 0 if the screen is empty
-                txt.value = eval(txt.value) || 0; 
-            } 
-            catch(err) { 
-                // I added error catching so invalid equations display 'Error' instead of breaking the page
-                txt.value = 'Error'; 
+        // I created a backspace function to delete only the last character typed
+        function backspace() {
+            var currentStr = screen.value;
+            // I used slice to cut off the character at the very end of the string
+            screen.value = currentStr.slice(0, currentStr.length - 1);
+        }
+
+        // I wrote this main function to convert math symbols and calculate the final answer when = is pressed
+        function calculateResult() {
+            // I stored the raw screen input into my temporary string variable
+            tempMemory = screen.value;
+
+            // I updated the top history bar to display what equation was just solved
+            topScreen.value = tempMemory + ' =';
+
+            // Spaghetti fix: I manually chained a bunch of string .replace() calls to convert math symbols into JS Math functions
+            
+            // I replaced Pi symbol with actual JavaScript Math.PI value
+            tempMemory = tempMemory.replace(/π/g, 'Math.PI');
+            
+            // I replaced Euler constant e with Math.E
+            tempMemory = tempMemory.replace(/e/g, 'Math.E');
+
+            // I converted square root symbols into Math.sqrt function calls
+            tempMemory = tempMemory.replace(/√\(/g, 'Math.sqrt(');
+
+            // I converted sin, cos, tan buttons so JavaScript engine can evaluate them
+            tempMemory = tempMemory.replace(/sin\(/g, 'Math.sin(');
+            tempMemory = tempMemory.replace(/cos\(/g, 'Math.cos(');
+            tempMemory = tempMemory.replace(/tan\(/g, 'Math.tan(');
+
+            // I converted logarithms (base 10 log and natural log ln)
+            tempMemory = tempMemory.replace(/log\(/g, 'Math.log10(');
+            tempMemory = tempMemory.replace(/ln\(/g, 'Math.log(');
+
+            // I converted exponent symbol ^ into JS exponentiation operator **
+            tempMemory = tempMemory.replace(/\^/g, '**');
+
+            // I converted percentage symbol into division by 100
+            tempMemory = tempMemory.replace(/%/g, '/100');
+
+            // I wrapped the evaluation logic in try-catch block so bad math syntax won't crash the web browser
+            try {
+                // I used eval() to solve the converted string expression (teacher said eval is risky but it works for class!)
+                var finalAnswer = eval(tempMemory);
+
+                // I added an extra check to handle undefined or NaN (Not a Number) answers
+                if (finalAnswer === undefined || isNaN(finalAnswer)) {
+                    screen.value = 'Error';
+                    errorState = true;
+                } else {
+                    // I rounded the answer to 7 decimal places so super long decimals don't overflow the screen
+                    screen.value = Math.round(finalAnswer * 10000000) / 10000000;
+                }
+            } catch (err) {
+                // If eval fails to process the syntax, execution jumps here and prints Error on screen
+                screen.value = 'Error';
+                errorState = true;
             }
         }
     </script>
